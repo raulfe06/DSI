@@ -1,7 +1,7 @@
 #include "Scene.h"
 
 
-Scene::Scene():pBrush(NULL), pRenderTarget(NULL), pFactory(NULL), ellipse(D2D1::Ellipse(D2D1::Point2F(), 0, 0)),
+Scene::Scene():pBrush(NULL), pRenderTarget(NULL), pFactory(NULL), reloj(D2D1::Ellipse(D2D1::Point2F(), 0, 0)),
 ptMouse(D2D1::Point2F())
 
 {
@@ -26,17 +26,22 @@ void Scene::LiberaFactoria()
 
 void Scene::DrawClockHand(float fHandLength, float fAngle, float fStrokeWidth)
 {
-	pRenderTarget->SetTransform(D2D1::Matrix3x2F::Rotation(fAngle, ellipse.point));
+	pRenderTarget->SetTransform(D2D1::Matrix3x2F::Rotation(fAngle, reloj.point));
 	// endPoint defines one end of the hand.
-	D2D_POINT_2F endPoint = D2D1::Point2F(ellipse.point.x,ellipse.point.y - (ellipse.radiusY * fHandLength));
-	// Draw a line from the center of the ellipse to endPoint.
-	pRenderTarget->DrawLine(ellipse.point, endPoint, pStroke, fStrokeWidth);
+	D2D_POINT_2F endPoint = D2D1::Point2F(reloj.point.x,reloj.point.y - (reloj.radiusY * fHandLength));
+	// Draw a line from the center of the reloj to endPoint.
+	pRenderTarget->DrawLine(reloj.point, endPoint, pStroke, fStrokeWidth);
 }
 
+void Scene::DrawReloj()
+{
+	reloj = D2D1::Ellipse(D2D1::Point2F(x, y), radio, radio);
+	pRenderTarget->FillEllipse(reloj, pBrush);
+	pRenderTarget->DrawEllipse(reloj, pStroke);
+}
 void Scene::DrawEsfera()
 {
-	ellipse = D2D1::Ellipse(D2D1::Point2F(x, y), radio, radio);
-	pRenderTarget->FillEllipse(ellipse, pBrush);
+	pRenderTarget->FillEllipse(ellipse, pEllipse);
 	pRenderTarget->DrawEllipse(ellipse, pStroke);
 }
 void Scene::RenderScene()
@@ -45,9 +50,10 @@ void Scene::RenderScene()
 		pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::SkyBlue));
 		pRenderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 		DrawEsfera();
-		DrawClockHand(0.6f, fHourAngle, 6);
-		DrawClockHand(0.8f, fMinuteAngle, 4);
-		DrawClockHand(0.9f, fSecondAngle, 2);
+		DrawReloj();
+		DrawClockHand(0.6f, fHourAngle, 5);
+		DrawClockHand(0.75f, fMinuteAngle, 3);
+		DrawClockHand(0.95f, fSecondAngle, 2);
 	HRESULT hr = pRenderTarget->EndDraw();
 	if (FAILED(hr) || hr == D2DERR_RECREATE_TARGET)
 	{
@@ -88,6 +94,8 @@ HRESULT Scene::CreateGraphicsResources(HWND m_hwnd,RECT rc)
 			hr = pRenderTarget->CreateSolidColorBrush(color, &pBrush);
 			const D2D1_COLOR_F color1 = D2D1::ColorF(0.0f, 0.0f, 0);
 			hr = pRenderTarget->CreateSolidColorBrush(color1, &pStroke);
+			const D2D1_COLOR_F color2 = D2D1::ColorF(1.0f, 0.0f, 0);
+			hr = pRenderTarget->CreateSolidColorBrush(color2, &pEllipse);
 			if (SUCCEEDED(hr))
 			{
 				CalculateLayout(rc);
@@ -103,16 +111,5 @@ void Scene::DiscardGraphicsResources()
 	SafeRelease(&pBrush);
 	SafeRelease(&pStroke);
 }
-void Scene::OnLButtonDown(int pixelX, int pixelY, DWORD flags)
-{
-	ellipse.point = ptMouse = DPIScale::PixelsToDips(pixelX, pixelY);
-	ellipse.radiusX = ellipse.radiusY = 1.0f;
-}
 
-void Scene::OnLButtonUp()
-{
-}
 
-void Scene::OnMouseMove(int pixelX, int pixelY, DWORD flags)
-{
-}

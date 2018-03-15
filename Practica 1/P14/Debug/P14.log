@@ -1,19 +1,3 @@
-﻿  MainOO.cpp
-d:\dsigit\dsi\practica 1\p14\mainoo.cpp(6): error C2504: 'BaseWindow': clase base sin definir
-d:\dsigit\dsi\practica 1\p14\mainoo.cpp(6): error C2143: error de sintaxis: falta ',' delante de '<'
-d:\dsigit\dsi\practica 1\p14\mainoo.cpp(28): error C2065: 'm_hwnd': identificador no declarado
-d:\dsigit\dsi\practica 1\p14\mainoo.cpp(34): error C2065: 'm_hwnd': identificador no declarado
-d:\dsigit\dsi\practica 1\p14\mainoo.cpp(43): error C2065: 'm_hwnd': identificador no declarado
-d:\dsigit\dsi\practica 1\p14\mainoo.cpp(49): error C2065: 'm_hwnd': identificador no declarado
-d:\dsigit\dsi\practica 1\p14\mainoo.cpp(52): error C2065: 'm_hwnd': identificador no declarado
-d:\dsigit\dsi\practica 1\p14\mainoo.cpp(54): error C2065: 'm_hwnd': identificador no declarado
-d:\dsigit\dsi\practica 1\p14\mainoo.cpp(62): error C2065: 'm_hwnd': identificador no declarado
-d:\dsigit\dsi\practica 1\p14\mainoo.cpp(64): error C2065: 'm_hwnd': identificador no declarado
-d:\dsigit\dsi\practica 1\p14\mainoo.cpp(79): error C2039: 'Create': no es un miembro de 'MainWindow'
-  d:\dsigit\dsi\practica 1\p14\mainoo.cpp(6): note: vea la declaración de 'MainWindow'
-d:\dsigit\dsi\practica 1\p14\mainoo.cpp(83): error C2039: 'Window': no es un miembro de 'MainWindow'
-  d:\dsigit\dsi\practica 1\p14\mainoo.cpp(6): note: vea la declaración de 'MainWindow'
-d:\dsigit\dsi\practica 1\p14\mainoo.cpp(104): error C2065: 'm_hwnd': identificador no declarado
-d:\dsigit\dsi\practica 1\p14\mainoo.cpp(119): error C2065: 'm_hwnd': identificador no declarado
-d:\dsigit\dsi\practica 1\p14\mainoo.cpp(121): error C2065: 'm_hwnd': identificador no declarado
-d:\dsigit\dsi\practica 1\p14\mainoo.cpp(130): error C2065: 'm_hwnd': identificador no declarado
+﻿  Scene.cpp
+  P14.vcxproj -> D:\DSIGit\DSI\Practica 1\Debug\P14.exe
+  P14.vcxproj -> D:\DSIGit\DSI\Practica 1\Debug\P14.pdb (Partial PDB)
