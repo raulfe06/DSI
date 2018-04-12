@@ -47,7 +47,7 @@ struct CONTROLER_STATE
 
 CONTROLER_STATE g_Controllers[MAX_CONTROLLERS];
 WCHAR g_szMessage[4][1024] = { 0 };
-HWND g_hWnd;
+HWND g_hWnd = GetActiveWindow();
 bool    g_bDeadZoneOn = true;
 POINT pt;
 
@@ -163,12 +163,68 @@ void RenderFrame()
 				pt.x += 10 * (float)g_Controllers[i].state.Gamepad.sThumbLX / (float)MAXINT16;
 				pt.y -= 10 * (float)g_Controllers[i].state.Gamepad.sThumbLY / (float)MAXINT16;
 				SetCursorPos(pt.x, pt.y);
+			}	
+			if (g_Controllers[i].state.Gamepad.bLeftTrigger != 0 |(g_Controllers[i].state.Gamepad.bRightTrigger != 0))
+			{
+				mouse_event(MOUSEEVENTF_WHEEL, pt.x, pt.y, g_Controllers[i].state.Gamepad.bLeftTrigger/4, NULL);
+				mouse_event(MOUSEEVENTF_WHEEL, pt.x, pt.y, -g_Controllers[i].state.Gamepad.bRightTrigger/4, NULL);
 
-			}			
+			}
+
 			DWORD lastButtons = g_Controllers[i].lastState.Gamepad.wButtons;
+			if (wButtons & XINPUT_GAMEPAD_LEFT_THUMB && !(lastButtons & XINPUT_GAMEPAD_LEFT_THUMB)) {
+				mouse_event(MOUSEEVENTF_LEFTDOWN, pt.x, pt.y, 0,NULL);
+			}
+			if (!(wButtons & XINPUT_GAMEPAD_LEFT_THUMB) && (lastButtons & XINPUT_GAMEPAD_LEFT_THUMB)) {
+				mouse_event(MOUSEEVENTF_LEFTUP, pt.x, pt.y, 0, NULL);
+			}
+			if (!(wButtons & XINPUT_GAMEPAD_DPAD_LEFT) && (lastButtons & XINPUT_GAMEPAD_DPAD_LEFT)) {
+				keybd_event(VK_LEFT, 0x25, KEYEVENTF_EXTENDEDKEY | 0, 0);
+			}
+			if (!(wButtons & XINPUT_GAMEPAD_DPAD_RIGHT) && (lastButtons & XINPUT_GAMEPAD_DPAD_RIGHT)) {
+				keybd_event(VK_RIGHT, 0x27, KEYEVENTF_EXTENDEDKEY | 0, 0);
+			}
+			if (!(wButtons & XINPUT_GAMEPAD_DPAD_UP) && (lastButtons & XINPUT_GAMEPAD_DPAD_UP)) {
+				keybd_event(VK_UP, 0x26, KEYEVENTF_EXTENDEDKEY | 0, 0);
+			}
+			if (!(wButtons & XINPUT_GAMEPAD_DPAD_DOWN) && (lastButtons & XINPUT_GAMEPAD_DPAD_DOWN)) {
+				keybd_event(VK_DOWN, 0x28, KEYEVENTF_EXTENDEDKEY | 0, 0);
+			}			
+			if (wButtons & XINPUT_GAMEPAD_RIGHT_THUMB && !(lastButtons & XINPUT_GAMEPAD_RIGHT_THUMB)) {
+				mouse_event(MOUSEEVENTF_RIGHTDOWN, pt.x, pt.y, 0, NULL);
+			}
+			if (!(wButtons & XINPUT_GAMEPAD_RIGHT_THUMB) && (lastButtons & XINPUT_GAMEPAD_RIGHT_THUMB)) {
+				mouse_event(MOUSEEVENTF_RIGHTUP, pt.x, pt.y, 0, NULL);
+			}
+
+			if (wButtons & XINPUT_GAMEPAD_TRIGGER_THRESHOLD && !(lastButtons & XINPUT_GAMEPAD_LEFT_SHOULDER)) {
+				mouse_event(MOUSEEVENTF_WHEEL, pt.x, pt.y, g_Controllers[0].state.Gamepad.bLeftTrigger, NULL);
+			}
+			if (wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER && !(lastButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER)) {
+				mouse_event(MOUSEEVENTF_WHEEL, pt.x, pt.y, g_Controllers[0].state.Gamepad.bRightTrigger, NULL);
+			}
+
+
+			if (wButtons & XINPUT_GAMEPAD_B && !(lastButtons & XINPUT_GAMEPAD_B)) {
+				keybd_event(VK_END, 0x23, KEYEVENTF_EXTENDEDKEY | 0, 0);
+			}
+			if (wButtons & XINPUT_GAMEPAD_X && !(lastButtons & XINPUT_GAMEPAD_X)) {
+				keybd_event(VK_HOME, 0x24, KEYEVENTF_EXTENDEDKEY | 0, 0);
+			}
+			if (wButtons & XINPUT_GAMEPAD_Y && !(lastButtons & XINPUT_GAMEPAD_Y)) {
+				keybd_event(VK_PRIOR, 0x21, KEYEVENTF_EXTENDEDKEY | 0, 0);
+			}
+			if (wButtons & XINPUT_GAMEPAD_A && !(lastButtons & XINPUT_GAMEPAD_A)) {
+				keybd_event(VK_NEXT, 0x22, KEYEVENTF_EXTENDEDKEY | 0, 0);
+			}
+			
 			if (wButtons & XINPUT_GAMEPAD_BACK && !(lastButtons & XINPUT_GAMEPAD_BACK)) {
 				keybd_event(VK_ESCAPE, 0x1B, KEYEVENTF_EXTENDEDKEY | 0, 0);
 			}
+			if (wButtons & XINPUT_GAMEPAD_START && !(lastButtons & XINPUT_GAMEPAD_START)) {
+				keybd_event(VK_RETURN, 0x0D, KEYEVENTF_EXTENDEDKEY | 0, 0);
+			}
+
 			if (!g_Controllers[i].bLockVibration)
 			{
 				// Map bLeftTrigger's 0-255 to wLeftMotorSpeed's 0-65535
@@ -290,14 +346,14 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			// App is now inactive, so disable XInput to prevent
 			// user input from effecting application and to 
 			// disable rumble. 
-			XInputEnable(false);
+			//XInputEnable(false);
 		}
 		break;
 	}
 	case WM_KEYDOWN:
 
 		if (wParam == 'D') g_bDeadZoneOn = !g_bDeadZoneOn;
-		//else if (wParam == 'ESC')
+		else if (wParam == VK_ESCAPE) PostQuitMessage(0);
 		break;
 
 	case WM_PAINT:
@@ -339,7 +395,9 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		RenderFrame();
 		break;
 	}
-
+	case WM_LBUTTONUP:
+		ReleaseCapture();
+		break;
 	}
 
 
