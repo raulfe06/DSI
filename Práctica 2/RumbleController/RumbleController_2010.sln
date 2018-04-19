@@ -1,6 +1,10 @@
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2026
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RumbleController", "RumbleController_2010.vcxproj", "{10945CD7-B63C-4D8E-A9F0-EB369D46A7E3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AbstraccionMando", "..\AbstraccionMando\AbstraccionMando.vcxproj", "{3BAE1E49-E179-4E0C-B6CC-D56E5976C228}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,8 +28,23 @@ Global
 		{10945CD7-B63C-4D8E-A9F0-EB369D46A7E3}.Release|Win32.Build.0 = Release|Win32
 		{10945CD7-B63C-4D8E-A9F0-EB369D46A7E3}.Release|x64.ActiveCfg = Release|x64
 		{10945CD7-B63C-4D8E-A9F0-EB369D46A7E3}.Release|x64.Build.0 = Release|x64
+		{3BAE1E49-E179-4E0C-B6CC-D56E5976C228}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3BAE1E49-E179-4E0C-B6CC-D56E5976C228}.Debug|Win32.Build.0 = Debug|Win32
+		{3BAE1E49-E179-4E0C-B6CC-D56E5976C228}.Debug|x64.ActiveCfg = Debug|x64
+		{3BAE1E49-E179-4E0C-B6CC-D56E5976C228}.Debug|x64.Build.0 = Debug|x64
+		{3BAE1E49-E179-4E0C-B6CC-D56E5976C228}.Profile|Win32.ActiveCfg = Release|Win32
+		{3BAE1E49-E179-4E0C-B6CC-D56E5976C228}.Profile|Win32.Build.0 = Release|Win32
+		{3BAE1E49-E179-4E0C-B6CC-D56E5976C228}.Profile|x64.ActiveCfg = Release|x64
+		{3BAE1E49-E179-4E0C-B6CC-D56E5976C228}.Profile|x64.Build.0 = Release|x64
+		{3BAE1E49-E179-4E0C-B6CC-D56E5976C228}.Release|Win32.ActiveCfg = Release|Win32
+		{3BAE1E49-E179-4E0C-B6CC-D56E5976C228}.Release|Win32.Build.0 = Release|Win32
+		{3BAE1E49-E179-4E0C-B6CC-D56E5976C228}.Release|x64.ActiveCfg = Release|x64
+		{3BAE1E49-E179-4E0C-B6CC-D56E5976C228}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4DF0C3DF-097C-40A3-B36C-58BBBCBEB531}
 	EndGlobalSection
 EndGlobal

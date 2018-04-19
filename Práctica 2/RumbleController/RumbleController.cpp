@@ -20,8 +20,9 @@
 LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 HRESULT UpdateControllerState();
 void RenderFrame();
-
 UINT_PTR timerMando;
+float contadorVibracion;
+bool teclaPulsada_ = false;
 
 //-----------------------------------------------------------------------------
 // Defines, constants, and global variables
@@ -195,6 +196,7 @@ void RenderFrame()
 			}
 			if (!(wButtons & XINPUT_GAMEPAD_RIGHT_THUMB) && (lastButtons & XINPUT_GAMEPAD_RIGHT_THUMB)) {
 				mouse_event(MOUSEEVENTF_RIGHTUP, pt.x, pt.y, 0, NULL);
+
 			}
 
 			if (wButtons & XINPUT_GAMEPAD_TRIGGER_THRESHOLD && !(lastButtons & XINPUT_GAMEPAD_LEFT_SHOULDER)) {
@@ -225,6 +227,13 @@ void RenderFrame()
 				keybd_event(VK_RETURN, 0x0D, KEYEVENTF_EXTENDEDKEY | 0, 0);
 			}
 
+			if (wButtons & 0xFFFFFFFF) {
+				teclaPulsada_ = true;
+				g_Controllers[i].bLockVibration = !g_Controllers[i].bLockVibration;
+				g_Controllers[i].vibration.wLeftMotorSpeed = 60000;
+				
+			}
+			
 			if (!g_Controllers[i].bLockVibration)
 			{
 				// Map bLeftTrigger's 0-255 to wLeftMotorSpeed's 0-65535
@@ -321,6 +330,8 @@ void RenderFrame()
 }
 
 
+
+
 //-----------------------------------------------------------------------------
 // Window message handler
 //-----------------------------------------------------------------------------
@@ -393,6 +404,16 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		UpdateControllerState();
 		RenderFrame();
+		if (teclaPulsada_) {
+			if (contadorVibracion > 0) {
+				contadorVibracion--;
+			}
+			else {
+				contadorVibracion = 10;
+				teclaPulsada_ = false;
+				g_Controllers[0].bLockVibration = !g_Controllers[0].bLockVibration;
+			}
+		}
 		break;
 	}
 	case WM_LBUTTONUP:

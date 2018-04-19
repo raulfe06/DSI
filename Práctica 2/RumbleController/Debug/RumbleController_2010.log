@@ -1,14 +1,14 @@
 ﻿  RumbleController.cpp
-d:\dsigit\dsi\práctica 2\rumblecontroller\rumblecontroller.cpp(83): warning C4101: 'bGotMsg': variable local sin referencia
-d:\dsigit\dsi\práctica 2\rumblecontroller\rumblecontroller.cpp(161): warning C4554: '|': compruebe la prioridad de operador para posibles errores; utilice paréntesis para indicar la prioridad
-d:\dsigit\dsi\práctica 2\rumblecontroller\rumblecontroller.cpp(163): warning C4244: '+=': conversión de 'float' a 'LONG'; posible pérdida de datos
-d:\dsigit\dsi\práctica 2\rumblecontroller\rumblecontroller.cpp(164): warning C4244: '-=': conversión de 'float' a 'LONG'; posible pérdida de datos
-d:\dsigit\dsi\práctica 2\rumblecontroller\rumblecontroller.cpp(167): warning C4554: '|': compruebe la prioridad de operador para posibles errores; utilice paréntesis para indicar la prioridad
-d:\dsigit\dsi\práctica 2\rumblecontroller\rumblecontroller.cpp(331): warning C4459: la declaración de 'pt' oculta la declaración global
-  d:\dsigit\dsi\práctica 2\rumblecontroller\rumblecontroller.cpp(52): note: vea la declaración de 'pt'
-d:\dsigit\dsi\práctica 2\rumblecontroller\rumblecontroller.cpp(342): warning C4995: 'XInputEnable': se marcó el nombre como #pragma deprecated
-d:\dsigit\dsi\práctica 2\rumblecontroller\rumblecontroller.cpp(329): warning C4101: 'hCurs1': variable local sin referencia
-d:\dsigit\dsi\práctica 2\rumblecontroller\rumblecontroller.cpp(329): warning C4101: 'hCurs2': variable local sin referencia
-d:\dsigit\dsi\práctica 2\rumblecontroller\rumblecontroller.cpp(332): warning C4101: 'rc': variable local sin referencia
-d:\dsigit\dsi\práctica 2\rumblecontroller\rumblecontroller.cpp(331): warning C4101: 'pt': variable local sin referencia
+d:\dsigit\dsi\práctica 2\rumblecontroller\rumblecontroller.cpp(84): warning C4101: 'bGotMsg': variable local sin referencia
+d:\dsigit\dsi\práctica 2\rumblecontroller\rumblecontroller.cpp(162): warning C4554: '|': compruebe la prioridad de operador para posibles errores; utilice paréntesis para indicar la prioridad
+d:\dsigit\dsi\práctica 2\rumblecontroller\rumblecontroller.cpp(164): warning C4244: '+=': conversión de 'float' a 'LONG'; posible pérdida de datos
+d:\dsigit\dsi\práctica 2\rumblecontroller\rumblecontroller.cpp(165): warning C4244: '-=': conversión de 'float' a 'LONG'; posible pérdida de datos
+d:\dsigit\dsi\práctica 2\rumblecontroller\rumblecontroller.cpp(168): warning C4554: '|': compruebe la prioridad de operador para posibles errores; utilice paréntesis para indicar la prioridad
+d:\dsigit\dsi\práctica 2\rumblecontroller\rumblecontroller.cpp(342): warning C4459: la declaración de 'pt' oculta la declaración global
+  d:\dsigit\dsi\práctica 2\rumblecontroller\rumblecontroller.cpp(53): note: vea la declaración de 'pt'
+d:\dsigit\dsi\práctica 2\rumblecontroller\rumblecontroller.cpp(353): warning C4995: 'XInputEnable': se marcó el nombre como #pragma deprecated
+d:\dsigit\dsi\práctica 2\rumblecontroller\rumblecontroller.cpp(340): warning C4101: 'hCurs1': variable local sin referencia
+d:\dsigit\dsi\práctica 2\rumblecontroller\rumblecontroller.cpp(340): warning C4101: 'hCurs2': variable local sin referencia
+d:\dsigit\dsi\práctica 2\rumblecontroller\rumblecontroller.cpp(343): warning C4101: 'rc': variable local sin referencia
+d:\dsigit\dsi\práctica 2\rumblecontroller\rumblecontroller.cpp(342): warning C4101: 'pt': variable local sin referencia
   RumbleController_2010.vcxproj -> D:\DSIGit\DSI\Práctica 2\RumbleController\Debug\RumbleController.exe
