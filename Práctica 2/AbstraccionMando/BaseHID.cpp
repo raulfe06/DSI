@@ -16,9 +16,17 @@ void BaseHID::Actualiza()
 		wButtonsUp = (wLastButtons)& wButtons;
 					 //Actualizo Gestos de entrada genéricos (entradas)
 					 //Genero Gesto de feedback (salida)
-		fthumlxf = (1-a)*fthumslxf + a*fThumbLX
+		fThumbLXf = (1 - a)*fThumbLXf* +a * fThumbLX;
+		fThumbLYf = (1 - a)*fThumbLYf* +a * fThumbLY;
 
-			if(fThumbLX>0) & fThumbLY
+		fThumbRXf = (1 - a)*fThumbRXf* +a * fThumbRX;
+		fThumbRYf = (1 - a)*fThumbRYf* +a * fThumbRY;
+
+
+
+		if ((fThumbLX > 0) & (fThumbLY > 0)) {
+			
+			}
 		EscribeMando(); //Escribo en Mando el feedback
 	}
 }

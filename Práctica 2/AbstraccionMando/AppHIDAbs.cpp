@@ -60,10 +60,11 @@ int APIENTRY wWinMain(HINSTANCE hInst, HINSTANCE, LPWSTR, int)
 VOID CALLBACK TimerCallBack()
 {
 	Control.Actualiza(); //Actualiza nuestro HID
-	//GeneraEfectos(&Control);//Genera los efectos en la aplicación en función de los gestos del control
+	GeneraEfectos(&Control);//Genera los efectos en la aplicación en función de los gestos del control
 }
 
-Genraefectos
-point pt, pt0;
-getcursorpos(&pt);
-if(fabs(Control->glIx())>0.05) | fabs (control->glIY)
+void GeneraEfectos(HIDXbox* Control) {
+	POINT pt, pt0;
+	GetCursorPos(&pt);
+	/*if (fabs) | fabs(control->glIY)*/
+}

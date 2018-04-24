@@ -3,6 +3,9 @@
 #include <Windows.h>
 #include <XInput.h>
 #include "HID.h"
+
+#define INPUT_DEADZONE (0.05f *FLOAT(0x7FFF))
+
 class HIDXbox : public BaseHID
 {
 	struct CONTROLER_STATE

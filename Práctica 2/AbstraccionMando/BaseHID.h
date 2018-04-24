@@ -11,20 +11,20 @@ public:
 					//Gets & Sets
 	bool gBU(WORD bit) ;//Estado del Boton codificado en bit
 	float gLT() { return fLeftTrigger; }; //Left Triger [0,1]
-	float gRT(); //Right Triger [0,1]
-	float gLJX(); //LeftJoyX [-1,1]
-	float gLJY(); //LeftJoyY [-1,1]
-	float gRJX(); //RightJoyX [-1,1]
-	float gRJY(); //RightJoyY [-1,1]
-	float gLJXf(); //LeftJoyXfiltered [-1,1]
-	float gLJYf(); //LeftJoyYfiltered [-1,1]
-	float gRJXf(); //RightJoyXfiltered [-1,1]
-	float gRJYf(); //RigthJoyYfiltered [-1,1]
+	float gRT() { return fRightTrigger; }; //Right Triger [0,1]
+	float gLJX() { return fThumbLX; }; //LeftJoyX [-1,1]
+	float gLJY() { return fThumbLY; }; //LeftJoyY [-1,1]
+	float gRJX() { return fThumbRX; }; //RightJoyX [-1,1]
+	float gRJY() { return fThumbRY; }; //RightJoyY [-1,1]
+	float gLJXf() { return fThumbLXf; }; //LeftJoyXfiltered [-1,1]
+	float gLJYf() { return fThumbLYf; }; //LeftJoyYfiltered [-1,1]
+	float gRJXf() { return fThumbRXf; };//RightJoyXfiltered [-1,1]
+	float gRJYf() { return fThumbLYf; }; //RigthJoyYfiltered [-1,1]
 	void sLR(float cantidad, float tiempo){fLeftVibration = cantidad; tLR = tiempo; }//LeftRumble [0,1]: cantidad [0,1], tiempo [0,inf]
-	void sRR(float cantidad, float tiempo); //RightRumble [0,1]: cantidad [0,1], tiempo [0,inf]
+	void sRR(float cantidad, float tiempo) { fRightVibration = cantidad; tRR = tiempo; }; //RightRumble [0,1]: cantidad [0,1], tiempo [0,inf]
 											//Gestos
-	bool BD(WORD Bit); //Boton Down codificado en Bit
-	bool BU(WORD Bit); //Boton Up codificado en Bit
+	bool BD(WORD Bit) { return (wButtonsDown & Bit); }; //Boton Down codificado en Bit
+	bool BU(WORD Bit) { return (wButtonsUp & Bit); }; //Boton Up codificado en Bit
 	bool GRLJ(); //Gesto de Rotación del LeftJoy
 	BaseHID(float t) : T(t/1000), a(T / (0.1 + T)) //Constructor que recoge el periodo de muestreo
 	{
