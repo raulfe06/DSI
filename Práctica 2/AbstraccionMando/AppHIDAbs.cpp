@@ -1,70 +1,138 @@
-#pragma once/*donde se hace la ventana y esas movidas...*/
-#include"HIDXbox.h"
+#include "HIDXBox.h"
+#include <math.h>
 
-#define T 10 //ms para actualizar
+HWND hWndAnt;
+HWND hWnd;
+
+void GeneraEfectos(HIDXBox* Control);
+VOID CALLBACK TimerCallBack();
+
+#define T 10
 #define TARGET_XBOX360
 #ifdef TARGET_XBOX360
-HIDXbox Control(T);
-#elif defined(TARGET_PS3)
+HIDXBox Control(T);
+#elif defined (TARGET_PS3)
 HIDPs Control(T);
-#elif defined(TARGET_WII)
+#elif defined (TARGET_WII)
 HIDWii Control(T);
 #endif
 
-int APIENTRY wWinMain(HINSTANCE hInst, HINSTANCE, LPWSTR, int)
+
+int WINAPI wWinMain(HINSTANCE hInst, HINSTANCE, LPWSTR, int)
 {
-	//Control.calibra();
-	UINT_PTR ptTimerxbox;
-	// Register the window class
-	WNDCLASSEX wc =
-	{
-		sizeof(WNDCLASSEX), 0, MsgProc, 0L, 0L, hInst, NULL,
-		LoadCursor(NULL, IDC_ARROW), hBrush,
-		NULL, L"XInputSample", NULL
-	};
-	RegisterClassEx(&wc);
+	Control.Calibra();
+	UINT_PTR ptimerxbox;
 
-	// Create the application's window
-	g_hWnd = CreateWindow(L"XInputSample", L"XInput Sample: RumbleController",
-		WS_OVERLAPPED | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
-		CW_USEDEFAULT, CW_USEDEFAULT, 600, 600,
-		NULL, NULL, hInst, NULL);
-
-	// Init state
-	ZeroMemory(g_Controllers, sizeof(CONTROLER_STATE) * MAX_CONTROLLERS);
-
-	// Enter the message loop
-	bool bGotMsg;
+	ptimerxbox = SetTimer(NULL, NULL, T, (TIMERPROC)TimerCallBack);
 	MSG msg;
-	msg.message = WM_NULL;
-
-	while (WM_QUIT != msg.message)
+	while (GetMessage(&msg, NULL, 0, 0))
 	{
-		timerMando = SetTimer(g_hWnd, NULL, 10, NULL);
-		while (GetMessage(&msg, NULL, 0, 0))
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
-
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
 	}
-
-	// Clean up 
-	KillTimer(NULL, timerMando);
-	UnregisterClass(L"XInputSample", NULL);
-
+	KillTimer(NULL, ptimerxbox);
 	return 0;
-
 }
+
 
 VOID CALLBACK TimerCallBack()
 {
-	Control.Actualiza(); //Actualiza nuestro HID
-	GeneraEfectos(&Control);//Genera los efectos en la aplicación en función de los gestos del control
+	Control.Actualiza();
+	GeneraEfectos(&Control);
 }
 
-void GeneraEfectos(HIDXbox* Control) {
+void GeneraEfectos(HIDXBox* Control)
+{
+
+
 	POINT pt, pt0;
 	GetCursorPos(&pt);
-	/*if (fabs) | fabs(control->glIY)*/
+	WORD lastButtons = Control->getLast();
+	WORD wButtons = Control->getButtons();
+	// Sin filtrar
+	if (Control->gLJX() != 0 | Control->gLJY() != 0)
+	{
+		pt.x += 10 * Control->gLJX();
+		pt.y -= 10 * Control->gLJY();
+		SetCursorPos(pt.x, pt.y);
+	}
+
+	RECT Rect = { 0, 0, 1024, 600 };
+	HWND Desk = GetDesktopWindow();
+	GetWindowRect(Desk, &Rect);
+
+	 if ((fabs(Control->gRJXf()) > 0.01) | (fabs(Control->gRJYf()) > 0.01))
+	{
+		 pt.x += 20 * Control->gRJXf();
+		 pt.y -= 20 * Control->gRJYf();
+	//	pt.x = Rect.right / 2 + Rect.right *3 / 4 * Control->gRJXf();
+		//pt.y = Rect.bottom / 2 - Rect.bottom  *3 / 4 * Control->gRJYf();
+		SetCursorPos(pt.x, pt.y);
+	}
+
+
+	if (Control->BD(XINPUT_GAMEPAD_LEFT_SHOULDER) )
+		mouse_event(MOUSEEVENTF_LEFTDOWN, pt.x, pt.y, 0, NULL);
+	if (Control->BU(XINPUT_GAMEPAD_LEFT_SHOULDER))
+		mouse_event(MOUSEEVENTF_LEFTUP, pt.x, pt.y, 0, NULL);
+
+	if (Control->BD(XINPUT_GAMEPAD_X)) 
+		keybd_event(VK_HOME, 0x24, KEYEVENTF_EXTENDEDKEY | 0, 0);
+
+	if (Control->BD(XINPUT_GAMEPAD_B))
+		keybd_event(VK_END, 0x23, KEYEVENTF_EXTENDEDKEY | 0, 0);
+
+	if (Control->BD(XINPUT_GAMEPAD_Y))
+		keybd_event(VK_PRIOR, 0x21, KEYEVENTF_EXTENDEDKEY | 0, 0);
+
+	if (Control->BD(XINPUT_GAMEPAD_A))
+		keybd_event(VK_NEXT, 0x22, KEYEVENTF_EXTENDEDKEY | 0, 0);
+
+
+	if (Control->BD(XINPUT_GAMEPAD_RIGHT_SHOULDER))
+		mouse_event(MOUSEEVENTF_RIGHTDOWN, pt.x, pt.y, 0, NULL);
+	if (Control->BU(XINPUT_GAMEPAD_RIGHT_SHOULDER))
+		mouse_event(MOUSEEVENTF_RIGHTUP, pt.x, pt.y, 0, NULL);
+
+	if (Control->gLT() != 0)
+		mouse_event(MOUSEEVENTF_WHEEL, pt.x, pt.y, (DWORD)(-40 * Control->gLT()), 0);
+	if (Control->gRT() != 0)
+		mouse_event(MOUSEEVENTF_WHEEL, pt.x, pt.y, (DWORD)(40 * Control->gRT()), 0);
+
+	if (Control->BD(XINPUT_GAMEPAD_BACK))
+		PostQuitMessage(0);
+
+	if (Control->BD(XINPUT_GAMEPAD_DPAD_UP))
+		keybd_event(VK_UP, 0x0, 0, 0);
+	if (Control->BU(XINPUT_GAMEPAD_DPAD_UP))
+		keybd_event(VK_UP, 0x0, KEYEVENTF_KEYUP, 0);
+
+	if (Control->BD(XINPUT_GAMEPAD_DPAD_DOWN))
+		keybd_event(VK_DOWN, 0x0, 0, 0);
+	if (Control->BU(XINPUT_GAMEPAD_DPAD_DOWN))
+		keybd_event(VK_DOWN, 0x0, KEYEVENTF_KEYUP, 0);
+
+	if (Control->BD(XINPUT_GAMEPAD_DPAD_LEFT))
+		keybd_event(VK_LEFT, 0x0, 0, 0);
+	if (Control->BU(XINPUT_GAMEPAD_DPAD_LEFT))
+		keybd_event(VK_LEFT, 0x0, KEYEVENTF_KEYUP, 0);
+
+	if (Control->BD(XINPUT_GAMEPAD_DPAD_RIGHT))
+		keybd_event(VK_RIGHT, 0x0, 0, 0);
+	if (Control->BU(XINPUT_GAMEPAD_DPAD_RIGHT))
+		keybd_event(VK_RIGHT, 0x0, KEYEVENTF_KEYUP, 0);
+
+	if (Control->BU(XINPUT_GAMEPAD_START))
+		keybd_event(VK_RETURN, 0x0D, KEYEVENTF_EXTENDEDKEY | 0, 0);
+
+	if (Control->BD(0xFFFF))
+		Control->sRR(1, 0.1);
+
+//Cambio de ventana cuando rota
+	hWndAnt = hWnd;
+	hWnd = GetForegroundWindow();
+	if (Control->GRLJ())
+		ShowWindow(hWnd, SW_MINIMIZE);
+	if (hWnd != hWndAnt)
+		Control->sLR(1, 0.2);
 }
